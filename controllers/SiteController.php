@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Country;
 
 class SiteController extends Controller
 {
@@ -69,6 +70,15 @@ class SiteController extends Controller
      *
      * @return Response|string
      */
+
+    public function actionCountry()
+    {
+        $table = Country::find()->all();
+        return $this->render('country', ['table'=>$table]);
+
+    }
+
+
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
