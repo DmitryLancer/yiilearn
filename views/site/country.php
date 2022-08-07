@@ -1,8 +1,13 @@
-<?php
 
 <table class="table">
-foreach ($table as $tab) {
-    echo "<tr><td>{$tab['id']}</tr><td>{$tab['city']}</tr><td>{$tab['age']}</tr><td>{$tab['population']}</tr><td>{$tab['square']}</td></tr>";
+    <tr><th>ID</th><th>Название города</th><th>Год основания</th><th>Население</th><th>Площадь</th></tr>
+<?php
+
+
+
+
+foreach ($rows as $row) {
+    echo "<tr><td>{$row['id']}</td><td>{$row['city']}</td><td>{$row['age']}</td><td>{$row['population']}</td><td>{$row['square']}</td></tr>";
 }
 
 ?>

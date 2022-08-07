@@ -3,8 +3,10 @@
 namespace app\controllers;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\Request;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
@@ -71,12 +73,7 @@ class SiteController extends Controller
      * @return Response|string
      */
 
-    public function actionCountry()
-    {
-        $table = Country::find()->all();
-        return $this->render('country', ['table'=>$table]);
 
-    }
 
 
     public function actionLogin()
@@ -139,5 +136,51 @@ class SiteController extends Controller
     public function actionSay($message = 'Привет')
     {
         return $this->render('say', ['message' => $message]);
+    }
+
+
+
+    public function actionCountry()
+    {
+        $rows = Country::find()->all();
+        return $this->render('country',
+            ['rows'=>$rows]);
+
+    }
+
+    public function actionCountry2()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Country::find(),
+            'pagination' => [
+                'pageSize'=>20,
+            ]
+        ]);
+        return $this->render('country2',
+            ['dataProvider'=>$dataProvider]);
+    }
+
+    public function actionView($id)
+    {
+        $model = Country::findOne($id);
+        return $this->render('view', ['model'=>$model]);
+    }
+
+    public function actionUpdate($id)
+    {
+        $model = Country::findOne($id);
+        return $this->render('edit', [model=>$model]);
+
+    }
+
+    public function actionAdd()
+    {
+        $model = new Country();
+        if($model-load(Yii::$app->request->post())) {
+            $model->upload();
+            $model->save();
+            return $this->redirect(['view', 'id'=>$model->id]);
+        }
+        return $this->render('edit',['model'=>$model]);
     }
 }
